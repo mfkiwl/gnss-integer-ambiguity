@@ -1,2 +1,2 @@
 # gnss-integer-ambiguity
-Estimation of the number of wave cycles for carrier-phase based positioning
+Estimation of position and number of wave cycles from both carrier-phase and pseudo-code samples.

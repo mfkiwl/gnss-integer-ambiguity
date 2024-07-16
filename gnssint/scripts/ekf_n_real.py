@@ -12,7 +12,10 @@ filter_naiv = ExtendedKalmanFilter(
     dim_z=constants.dim_meas
 )
 
+filter_naiv.x_prior = constants.x0
+
 # error state cov
 filter_naiv.Q = constants.Q_noise
+
 # error measurement cov
 filter_naiv.R = constants.R_noise

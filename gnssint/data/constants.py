@@ -32,32 +32,7 @@ sigma_carr = 10.0 # meters
 n_epochs = int(3600)
 # noise measurements
 R_noise = eye(N=dim_meas) # dim = code+carrier-phase x n_sats
-R_noise *= diag([sigma_code,]*n_sats + [sigma_carr,]*n_sats)
-
-def h_dist_pos(rec_pos, sat_id):
-    """
-    Measurement function: l2-norm satellite#sat_id - receiver.
-    
-    Parameters:
-    -----------
-    rec_pos: tuple (2,)
-    Position of the receiver.
-
-    sat_id: int, must be 1, 2, 3 or 4.
-    Satellite identifier.
-    """
-
-    if not len(rec_pos) == 2:
-        raise ValueError("rec_pos must be 2-dimensional.")
-
-    if not sat_id in [1, 2, 3, 4]:
-        if not isinstance(sat_id, int):
-            raise ValueError(
-                "Invalid sattelite identifier, should be integer 1, 2, 3 or 4."
-            )
-
-    sat_pos_ = sats_position.loc[f'sat_{sat_id}'].to_numpy()
-    return norm(sat_pos_ - array(rec_pos), ord=None)
+R_noise *= diag([sigma_code**2,]*n_sats + [sigma_carr**2,]*n_sats)
 
 # State
 dim_state = 2+n_sats # dimension of state variable

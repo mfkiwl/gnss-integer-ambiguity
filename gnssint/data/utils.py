@@ -1,6 +1,9 @@
 from os import path
 from pandas import read_csv
 
+#-----------------------------------#
+#---------- Read the data ----------#
+#-----------------------------------#
 class MeasurementSamples(object):
     """
     Class to handle the pseudo-code and carrier-phase time series.
@@ -29,3 +32,21 @@ class MeasurementSamples(object):
         """Returns the full time series of a single given measurement component"""
         
         return self.ts.loc[:, name_component]
+
+#-----------------------------------#
+#--------- Evaluate error ----------#
+#-----------------------------------#
+def import_ground_truth(to_numpy=True):
+    """
+    Import ground truth receiver position.
+    """
+
+    path_data = path.join(
+        path.dirname(__file__),
+        'groundtruth.csv'
+    )
+
+    if to_numpy:
+        return read_csv(filepath_or_buffer=path_data).to_numpy()
+    else:
+        return read_csv(filepath_or_buffer=path_data)

@@ -2,8 +2,9 @@ from gnssint.data import constants
 from numpy import array, zeros, diag, tile
 from numpy.linalg import norm
 
-#---------- Measurement function, h ----------#
-
+#-----------------------------------#
+#----- Measurement function, h -----#
+#-----------------------------------#
 def hdist(rec_pos, sat_id):
     """
     Measurement function for pseudo-code:

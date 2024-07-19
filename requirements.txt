@@ -1,0 +1,7 @@
+filterpy
+pandas<2.5
+sympy
+numpy
+scipy
+matplotlib
+ipykernel

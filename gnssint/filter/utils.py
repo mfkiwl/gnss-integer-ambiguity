@@ -71,7 +71,7 @@ def grad_hdist_ambig(rec_pos, sat_ambig, sat_id):
 
 class HPos(object):
     """
-    Class to handle measurement function in the extended Kalman filter.
+    Class to handle non-linear measurement function in the extended Kalman filter.
     """
 
     def __init__(
@@ -82,10 +82,11 @@ class HPos(object):
 
         self.dim_meas = dim_meas
         self.dim_sate = dim_state
-    
+
     def h_fun(self, state):
 
-        return self._h_fun(rec_pos=state[:2], sat_ambig=state[2:])
+        u = state.flatten()
+        return self._h_fun(rec_pos=u[:2], sat_ambig=u[2:]).reshape((self.dim_meas, 1))
 
     def _h_fun(self, rec_pos, sat_ambig):
         """
@@ -106,6 +107,7 @@ class HPos(object):
 
         h_pseudcode = [hdist(rec_pos=rec_pos, sat_id=i) for i in range(1, constants.n_sats + 1)]
         h_pseudcode =  array(h_pseudcode)
+        # sum
         h_carr = h_pseudcode + constants.lambda_carr*array(sat_ambig)
 
         # concatenate into vector
@@ -116,7 +118,9 @@ class HPos(object):
         Returns Jacobian matrix of the measurement function from the state variables.
         """
 
-        return self._h_jacobian(rec_pos=state[:2], sat_ambig=state[2:])
+        # reshape as EKF internally stores 1D array as 2D array with single column
+        u = state.flatten()
+        return self._h_jacobian(rec_pos=u[:2], sat_ambig=u[2:])
 
     def _h_jacobian(self, rec_pos, sat_ambig):
          

@@ -35,6 +35,8 @@ for i in range(1, constants.n_sats + 1):
         alpha=0.75
     )
 
+ax[0].set_title('Pseudo-code')
+ax[1].set_title('Carrier phase')
 ax[1].set_xlabel('time epoch (sec)')
 
 # save

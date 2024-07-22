@@ -1,5 +1,6 @@
 from os import path
 from pandas import read_csv
+from sklearn.metrics import root_mean_squared_error
 
 #-----------------------------------#
 #---------- Read the data ----------#
@@ -24,7 +25,10 @@ class MeasurementSamples(object):
         """Returns measurement sample vector at a given time epoch."""
 
         if to_numpy:
-            return self.ts.loc[t, :].to_numpy()
+            
+            from gnssint.data.constants import dim_meas
+
+            return self.ts.loc[t, :].to_numpy().reshape((dim_meas, 1))
         else:
             return self.ts.loc[t, :]
     
@@ -33,9 +37,6 @@ class MeasurementSamples(object):
         
         return self.ts.loc[:, name_component]
 
-#-----------------------------------#
-#--------- Evaluate error ----------#
-#-----------------------------------#
 def import_ground_truth(to_numpy=True):
     """
     Import ground truth receiver position.
@@ -50,3 +51,27 @@ def import_ground_truth(to_numpy=True):
         return read_csv(filepath_or_buffer=path_data).to_numpy()
     else:
         return read_csv(filepath_or_buffer=path_data)
+
+#-----------------------------------#
+#--------- Evaluate error ----------#
+#-----------------------------------#
+def rmse_rec_pos(pred_rec_pos):
+    """
+    Return the RMSE between the receiver position estimate
+    and its ground truth.
+
+    Parameters:
+    -----------
+    pred: array (n_epochs, 2)
+    'X' and 'Y' position estimate.
+
+    Returns:
+    --------
+    array (2,) of RMSE of 'X' and and 'Y' position.
+    """
+
+    return root_mean_squared_error(
+        y_true=import_ground_truth(to_numpy=True),
+        y_pred=pred_rec_pos,
+        multioutput='raw_values'
+    )

@@ -85,13 +85,14 @@ class HPos(object):
         self.dim_sate = dim_state
 
     def h_fun(self, state):
-
+        """Computes vector of measurements code and carrier-pahse from state variables."""
+        
         u = state.flatten()
         return self._h_fun(rec_pos=u[:2], sat_ambig=u[2:]).reshape((self.dim_meas, 1))
 
     def _h_fun(self, rec_pos, sat_ambig):
         """
-        Returns vector of measurements code and carrier-pahse from state variables.
+        Computes vector of measurements code and carrier-pahse from state variables.
 
         Parameters:
         -----------

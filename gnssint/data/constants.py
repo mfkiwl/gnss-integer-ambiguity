@@ -36,7 +36,7 @@ R_noise *= diag([sigma_code**2,]*n_sats + [sigma_carr**2,]*n_sats)
 
 # State
 dim_state = 2+n_sats # dimension of state variable
-x0 = [0.0,]*(dim_state) # receiver position + nb of cycles per sat
+x0 = array([0.0,]*(dim_state)).reshape((dim_state, 1)) # receiver position + nb of cycles per sat
 F_trans = eye(N=dim_state)
 sigma_pos = 10.0
 sigma_int = 1e-16 # i.e zero-like

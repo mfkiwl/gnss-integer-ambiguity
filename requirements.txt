@@ -3,6 +3,6 @@ pandas<2.5
 sympy
 numpy
 scipy
-scikit-learn
+scikit-learn <= 1.5
 matplotlib
 ipykernel
